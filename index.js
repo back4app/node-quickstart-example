@@ -18,7 +18,7 @@ function create() {
     title: 'Rock\'n Rio',
     description: 'Rock\ in Rio is a recurring music festival originating in Rio de Janeiro.'
   };
-  console.info('Creating an object', myEvent);
+  console.info('Creating an object', rockEvent);
   event.save(rockEvent)
   .then(obj => obj.toJSON())
   .then(event => {
@@ -31,7 +31,7 @@ function create() {
 function read(id) {
   // Retrieving object
   console.info('Retrieving object with id', id);
-  eventQuery.first(id)
+  eventQuery.get(id)
   .then(obj => obj.toJSON())
   .then(event => {
     console.info('Object retrieved', event.title);

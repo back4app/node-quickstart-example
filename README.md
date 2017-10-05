@@ -117,7 +117,7 @@ function destroy(id) {}
 
 Let's start by recording a simple JavaScript object literal, puts this sequence of code inside create function.
 
-Our object to be saved
+Our object to be saved:
 ~~~javascript
 const rockEvent = {
   title: 'Rock\'n Rio',
@@ -125,7 +125,7 @@ const rockEvent = {
 };
 ~~~
 
-A call to save method of Parse.Object method.
+A call save method of Parse.Object method.
 ~~~javascript
 event.save(rockEvent)
 ~~~
@@ -152,17 +152,17 @@ If an error occurs, log this.
 
 ### Read
 
+Here, we get a specific object through the id, using get method:
 ~~~javascript
-eventQuery.first(id)
+eventQuery.get(id)
 ~~~
 
-
+Convert it to a JSON
 ~~~javascript
-eventQuery.first(id)
 .then(obj => obj.toJSON())
 ~~~
 
-
+And then you can use your saved data.
 ~~~javascript
 .then(event => {
   console.info('Object retrieved', event.title);
@@ -171,16 +171,14 @@ eventQuery.first(id)
 .catch(console.error);
 ~~~
 
-If an error occurs, log this.
-~~~javascript
-.catch(console.error);
-~~~
-
 ### Update
+
+Since we want an exact result, we will use the first method, it will find the first item with the specified id and return us.
 ~~~javascript
 eventQuery.first(id)
 ~~~
 
+In this case we will not use .then to convert to JSON since we will need the parse api. This helps us to maintain the data consistency, allows the search to end after the object is found and make sure we are not recording n times the same value using set("property", "value").
 ~~~javascript
 .then(eventToUpdate => {
   if(eventToUpdate !== undefined) {
@@ -192,25 +190,24 @@ eventQuery.first(id)
     eventToUpdate.save()
     .then(eventUpdated => {
       console.log('Updated Event', eventUpdated);
-
       destroy(eventUpdated.id)
     })
     .catch(console.error);
   }
 })
-~~~
-
-If an error occurs, log this.
-~~~javascript
 .catch(console.error);
 ~~~
 
+
 ### Destroy
+
+Again we find a single object through the id:
 ~~~javascript
   eventQuery.first(id)
 }
 ~~~
 
+And execute the destroy method to exclude it:
 ~~~javascript
 .then(eventToDelete => {
   if(eventToDelete !== undefined) {
@@ -221,10 +218,6 @@ If an error occurs, log this.
     })
     .catch(console.error)
   }
-});
-~~~
-
-If an error occurs, log this.
-~~~javascript
+})
 .catch(console.error);
 ~~~
